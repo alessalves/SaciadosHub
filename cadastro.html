@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro na Rede — SaciadosHub</title>
+    <meta name="description" content="Junte-se ao SaciadosHub como Restaurante Doador, ONG Beneficiária ou Voluntário de Logística.">
+
+    <!-- Tipografia Editorial & Interface Tecnológica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="paineis-formularios.css">
+    <link rel="stylesheet" href="notificacoes-tema.css">
+    <link rel="stylesheet" href="saci-ai.css">
+
+    <style>
+        .cadastro-container-card {
+            max-width: 1140px;
+            margin: 40px auto;
+            background: #FFFFFF;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(13, 35, 24, 0.08);
+            border: 1px solid var(--border-card);
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            overflow: hidden;
+        }
+
+        .cadastro-side-editorial {
+            background: linear-gradient(150deg, var(--brand-green-dark) 0%, #153B28 100%);
+            color: #FFFFFF;
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cadastro-side-editorial::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(222, 155, 53, 0.22), transparent 70%);
+            pointer-events: none;
+        }
+
+        .cadastro-form-pane {
+            padding: 44px 48px;
+            overflow-y: auto;
+        }
+
+        .role-selector-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .role-option-card {
+            border: 1.5px solid var(--border-card);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #FAF9F6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .role-option-card:hover {
+            border-color: var(--brand-green-medium);
+            background: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        .role-option-card.active {
+            border-color: var(--brand-green-primary);
+            background: var(--brand-green-light);
+            box-shadow: 0 0 0 2px var(--brand-green-primary);
+        }
+
+        .role-option-card .role-emoji {
+            font-size: 1.6rem;
+        }
+
+        .role-option-card .role-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--brand-green-dark);
+        }
+
+        .role-option-card .role-desc {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+        }
+
+        .quick-assist-card {
+            background: var(--food-gold-light);
+            border: 1px dashed rgba(212, 105, 44, 0.35);
+            border-radius: 14px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            gap: 12px;
+        }
+
+        .quick-assist-card p {
+            font-size: 0.84rem;
+            color: var(--food-terracotta-dark);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .quick-assist-btn {
+            background: var(--food-terracotta);
+            color: #FFFFFF;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .quick-assist-btn:hover {
+            background: var(--food-terracotta-dark);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 900px) {
+            .cadastro-container-card {
+                grid-template-columns: 1fr;
+                margin: 20px 16px;
+            }
+            .cadastro-side-editorial {
+                display: none;
+            }
+            .cadastro-form-pane {
+                padding: 30px 20px;
+            }
+            .role-selector-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="cadastro-editorial-body">
+
+    <!-- HEADER SIMPLIFICADO EDITORIAL -->
+    <header class="painel-header">
+        <a href="index.html" class="painel-brand" title="SaciadosHub — Início">
+            <div class="painel-brand-icon">🌱</div>
+            <div class="painel-brand-text">
+                <span class="painel-brand-title">Saciados<strong>Hub</strong></span>
+                <span class="painel-brand-badge">Cadastro na Plataforma</span>
+            </div>
+        </a>
+
+        <nav class="painel-nav-links">
+            <a href="index.html">🏠 Início</a>
+            <a href="mapa.html">🗺️ Mapa da Rede</a>
+            <a href="login.html" style="font-weight: 700; color: var(--brand-green-primary);">🔑 Entrar</a>
+        </nav>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main style="padding: 10px 20px;">
+        <div class="cadastro-container-card">
+
+            <!-- LADO ESQUERDO: EDITORIAL & IMPACTO -->
+            <aside class="cadastro-side-editorial">
+                <div>
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.12); padding: 5px 12px; border-radius: 20px; font-size: 0.74rem; font-weight: 800; color: var(--food-warm-gold); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 20px;">
+                        <span>🌱</span> REDE INTELIGENTE DE ALIMENTOS
+                    </div>
+                    
+                    <h2 style="font-family: var(--font-editorial); font-size: 2.3rem; font-weight: 700; line-height: 1.25; margin: 0 0 16px; color: #FFFFFF;">
+                        Comida que conecta. <strong style="color: var(--food-warm-gold);">Impacto</strong> que transforma.
+                    </h2>
+                    
+                    <p style="color: #D3E4DB; font-size: 0.95rem; line-height: 1.6; margin: 0 0 28px;">
+                        Ao se cadastrar no SaciadosHub, você passa a fazer parte da maior malha integrada de combate ao desperdício e segurança alimentar de São Paulo.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="width: 24px; height: 24px; border-radius: 50%; background: rgba(52, 211, 153, 0.2); color: var(--brand-green-glow); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">✓</span>
+                            <div style="font-size: 0.88rem; color: #D3E4DB;">
+                                <strong style="color: #FFF;">Restaurantes:</strong> Doe excedentes com rastreabilidade, certificação ambiental e redução de custos operacionais.
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="width: 24px; height: 24px; border-radius: 50%; background: rgba(52, 211, 153, 0.2); color: var(--brand-green-glow); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">✓</span>
+                            <div style="font-size: 0.88rem; color: #D3E4DB;">
+                                <strong style="color: #FFF;">ONGs:</strong> Publique necessidades pontuais e receba lotes de refeições nutritivas com transporte coordenado.
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <span style="width: 24px; height: 24px; border-radius: 50%; background: rgba(52, 211, 153, 0.2); color: var(--brand-green-glow); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;">✓</span>
+                            <div style="font-size: 0.88rem; color: #D3E4DB;">
+                                <strong style="color: #FFF;">Voluntários:</strong> Rotas otimizadas por bairro, pontuação social e certificados de horas complementares.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 20px; margin-top: 32px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family: var(--font-editorial); font-size: 1.6rem; font-weight: 700; color: #FFF;">100% Gratuito</div>
+                        <div style="font-size: 0.76rem; color: #9AB2A6;">Tecnologia sem fins lucrativos</div>
+                    </div>
+                    <span style="font-size: 1.8rem;">🤝</span>
+                </div>
+            </aside>
+
+            <!-- LADO DIREITO: FORMULÁRIO -->
+            <section class="cadastro-form-pane">
+                <div style="margin-bottom: 20px;">
+                    <h1 style="font-family: var(--font-editorial); font-size: 1.95rem; font-weight: 700; color: var(--brand-green-dark); margin: 0 0 6px;">
+                        Criar Conta na Rede
+                    </h1>
+                    <p style="color: var(--text-secondary); font-size: 0.92rem; margin: 0;">
+                        Selecione seu perfil e preencha os dados cadastrais.
+                    </p>
+                </div>
+
+                <!-- ASSISTENTE RÁPIDO BANNER -->
+                <div class="quick-assist-card">
+                    <p>✨ Quer agilidade? Experimente o cadastro por voz ou rápido.</p>
+                    <a href="cadastro-rapido.html" class="quick-assist-btn">✨ Cadastro Rápido</a>
+                </div>
+
+                <!-- ROLE SELECTOR CARDS INTERATIVOS -->
+                <div class="role-selector-group">
+                    <div class="role-option-card active" data-role="Restaurante" onclick="selecionarPapel('Restaurante')">
+                        <span class="role-emoji">🍽️</span>
+                        <span class="role-title">Restaurante</span>
+                        <span class="role-desc">Doador de Alimentos</span>
+                    </div>
+
+                    <div class="role-option-card" data-role="ONG" onclick="selecionarPapel('ONG')">
+                        <span class="role-emoji">🏢</span>
+                        <span class="role-title">ONG</span>
+                        <span class="role-desc">Instituição Social</span>
+                    </div>
+
+                    <div class="role-option-card" data-role="Voluntario" onclick="selecionarPapel('Voluntario')">
+                        <span class="role-emoji">🚚</span>
+                        <span class="role-title">Voluntário</span>
+                        <span class="role-desc">Logística Solidária</span>
+                    </div>
+                </div>
+
+                <!-- FORMULÁRIO PRINCIPAL -->
+                <form id="formCadastro">
+                    <!-- SELECT DO TIPO DE USUÁRIO (MANTIDO PARA JAVASCRIPT COMPLETO) -->
+                    <div class="form-group-editorial" style="display: none;">
+                        <label for="tipo">Tipo de Usuário</label>
+                        <select id="tipo" required>
+                            <option value="Restaurante" selected>Restaurante</option>
+                            <option value="ONG">ONG</option>
+                            <option value="Voluntario">Voluntario</option>
+                        </select>
+                    </div>
+
+                    <div class="form-editorial-grid">
+                        <!-- UPLOAD DE FOTO DE PERFIL (OPCIONAL) -->
+                        <div class="form-group-editorial form-full-row" style="text-align: center; margin-bottom: 8px;">
+                            <label style="justify-content: center; margin-bottom: 8px; font-weight: 700;">📷 Foto de Perfil (Opcional)</label>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+                                <div id="cadastroAvatarPreview" style="width: 72px; height: 72px; border-radius: 50%; background: #FAF9F6; border: 2px dashed rgba(18, 52, 34, 0.2); display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; cursor: pointer; box-shadow: var(--shadow-xs);" onclick="document.getElementById('cadastroFotoInput').click()" title="Clique para escolher uma foto">
+                                    <img id="cadastroFotoImg" src="" alt="Foto" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                                    <span id="cadastroAvatarPlaceholder">📷</span>
+                                </div>
+                                <button type="button" class="btn-preset-avatar" style="width: auto; height: auto; padding: 7px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; color: var(--brand-green-primary); border: 1.5px solid var(--border-card); background: #FFF;" onclick="document.getElementById('cadastroFotoInput').click()">
+                                    Escolher Imagem
+                                </button>
+                                <input type="file" id="cadastroFotoInput" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+
+                        <!-- NOME -->
+                        <div class="form-group-editorial form-full-row">
+                            <label for="nome" id="labelNome">
+                                🏢 Nome do Estabelecimento / Razão Social <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="nome"
+                                placeholder="Ex: Restaurante Sabor & Vida Ltda"
+                                required
+                            >
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="form-group-editorial">
+                            <label for="email">
+                                ✉️ E-mail Corporativo ou Pessoal <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="contato@restaurante.com.br"
+                                required
+                            >
+                        </div>
+
+                        <!-- TELEFONE -->
+                        <div class="form-group-editorial">
+                            <label for="telefone">
+                                📱 Telefone / WhatsApp <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="telefone"
+                                placeholder="(11) 98765-4321"
+                                required
+                            >
+                        </div>
+
+                        <!-- ENDEREÇO -->
+                        <div class="form-group-editorial form-full-row">
+                            <label for="endereco">
+                                📍 Endereço Completo (Rua, Número, Bairro) <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="endereco"
+                                placeholder="Av. Paulista, 1000 - Bela Vista"
+                                required
+                            >
+                        </div>
+
+                        <!-- CIDADE -->
+                        <div class="form-group-editorial">
+                            <label for="cidade">
+                                🏙️ Cidade <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="cidade"
+                                placeholder="São Paulo"
+                                required
+                            >
+                        </div>
+
+                        <!-- ESTADO (UF) -->
+                        <div class="form-group-editorial">
+                            <label for="estado">
+                                🗺️ Estado (UF com 2 letras) <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="estado"
+                                placeholder="SP"
+                                maxlength="2"
+                                style="text-transform: uppercase;"
+                                required
+                            >
+                        </div>
+
+                        <!-- SENHA -->
+                        <div class="form-group-editorial">
+                            <label for="senha">
+                                🔒 Senha de Acesso <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="senha"
+                                placeholder="Mínimo 6 caracteres"
+                                required
+                            >
+                        </div>
+
+                        <!-- CONFIRMAR SENHA -->
+                        <div class="form-group-editorial">
+                            <label for="confirmarSenha">
+                                🔒 Confirmar Senha <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="confirmarSenha"
+                                placeholder="Repita sua senha"
+                                required
+                            >
+                        </div>
+
+                        <!-- BOTÃO DE CADASTRO -->
+                        <div class="form-full-row" style="margin-top: 14px;">
+                            <button
+                                type="submit"
+                                id="btnCadastrar"
+                                class="btn-cadastro btn-editorial-submit btn-full-width"
+                            >
+                                ✨ Concluir Cadastro na Rede
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- LINK LOGIN -->
+                <div style="margin-top: 24px; text-align: center; font-size: 0.9rem; color: var(--text-secondary);">
+                    Já possui conta ativa?
+                    <a href="login.html" style="font-weight: 700; color: var(--brand-green-primary); text-decoration: underline; margin-left: 4px;">
+                        Faça Login aqui
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="notificacoes-tema.js"></script>
+    <script src="cadastro.js"></script>
+    <script src="saci-ai.js"></script>
+
+    <!-- INTERATIVIDADE DO SELETOR DE PAPEL -->
+    <script>
+        function selecionarPapel(papel) {
+            const select = document.getElementById("tipo");
+            if (select) {
+                select.value = papel;
+            }
+
+            document.querySelectorAll(".role-option-card").forEach(c => {
+                c.classList.remove("active");
+                if (c.getAttribute("data-role") === papel) {
+                    c.classList.add("active");
+                }
+            });
+
+            const labelNome = document.getElementById("labelNome");
+            const inputNome = document.getElementById("nome");
+            if (labelNome && inputNome) {
+                if (papel === "Restaurante") {
+                    labelNome.innerHTML = '🍽️ Nome do Restaurante / Estabelecimento <span class="label-required">*</span>';
+                    inputNome.placeholder = "Ex: Restaurante Sabor & Vida Ltda";
+                } else if (papel === "ONG") {
+                    labelNome.innerHTML = '🏢 Nome da Instituição / ONG Beneficiária <span class="label-required">*</span>';
+                    inputNome.placeholder = "Ex: Instituto Solidariedade & Esperança";
+                } else {
+                    labelNome.innerHTML = '👤 Nome Completo do Voluntário <span class="label-required">*</span>';
+                    inputNome.placeholder = "Ex: Carlos Eduardo de Oliveira";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

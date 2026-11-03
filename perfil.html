@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil & Informações — SaciadosHub</title>
+    <meta name="description" content="Gerencie suas informações cadastrais, foto de perfil, dados de contato e acompanhe seu impacto social no SaciadosHub.">
+
+    <!-- Tipografia Editorial & Interface Tecnológica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="paineis-formularios.css">
+    <link rel="stylesheet" href="notificacoes-tema.css">
+    <link rel="stylesheet" href="saci-ai.css">
+
+    <style>
+        .perfil-avatar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-box {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-green-primary) 0%, var(--brand-green-medium) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 44px;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(21, 59, 40, 0.25);
+            border: 3.5px solid #FFFFFF;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .avatar-upload-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: var(--brand-green-primary);
+            color: #FFFFFF;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2.5px solid #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .avatar-upload-badge:hover {
+            transform: scale(1.1);
+            background: var(--brand-green-medium);
+        }
+
+        .preset-avatars-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-preset-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-card);
+            background: #FFFFFF;
+            cursor: pointer;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-preset-avatar:hover {
+            transform: scale(1.15);
+            border-color: var(--brand-green-medium);
+            background: var(--brand-green-light);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 35, 24, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-conteudo {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-card);
+        }
+
+        .modal-fechar {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body class="painel-body">
+
+    <!-- CABEÇALHO PRINCIPAL EDITORIAL -->
+    <header class="painel-header">
+        <a href="index.html" class="painel-brand" title="SaciadosHub — Início">
+            <div class="painel-brand-icon">👤</div>
+            <div class="painel-brand-text">
+                <span class="painel-brand-title">Saciados<strong>Hub</strong></span>
+                <span class="painel-brand-badge">Meu Perfil de Acesso</span>
+            </div>
+        </a>
+
+        <nav class="painel-nav-links">
+            <a href="index.html">🏠 Início</a>
+            <a href="mapa.html">🗺️ Mapa da Rede</a>
+            <a href="ranking.html">🏆 Ranking</a>
+            <a href="transparencia.html">📊 Transparência</a>
+            <a href="perfil.html" class="active">👤 Meu Perfil</a>
+        </nav>
+
+        <div class="painel-user-bar">
+            <button id="btnVoltarPainel" class="btn-cadastro" style="padding: 7px 16px; font-size: 0.85rem;">
+                Meu Painel ➔
+            </button>
+            <button id="btnSairPerfil" class="btn-sair-link" title="Encerrar sessão">
+                <span>✕</span> Sair
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO DO PERFIL -->
+    <main class="painel-main-wrapper">
+        <div class="painel-box">
+
+            <!-- HEADER DO PERFIL / CARTÃO DE IDENTIFICAÇÃO -->
+            <section class="form-section-card" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+                    
+                    <!-- AVATAR COM FOTO OU ÍCONE + BOTÃO DE UPLOAD -->
+                    <div class="perfil-avatar-wrapper">
+                        <div id="avatarContainer" class="avatar-box" title="Clique para trocar foto" onclick="document.getElementById('inputFotoPerfil').click()">
+                            <img id="perfilFotoImg" src="" alt="Foto de Perfil" style="display: none;">
+                            <span id="perfilAvatarIcone">👤</span>
+                        </div>
+                        <label for="inputFotoPerfil" class="avatar-upload-badge" title="Enviar foto do computador ou celular">
+                            📷
+                        </label>
+                        <input type="file" id="inputFotoPerfil" accept="image/*" style="display: none;">
+                    </div>
+
+                    <!-- DADOS BÁSICOS & CLASSIFICAÇÃO -->
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                            <span id="perfilBadgeTipo" class="welcome-role-badge" style="background: var(--brand-green-light); color: var(--brand-green-primary); border: 1px solid rgba(36, 107, 62, 0.2);">
+                                Carregando...
+                            </span>
+                            <span class="welcome-live-pulse" style="font-size: 0.72rem;">
+                                <span class="welcome-live-dot"></span> Verificado
+                            </span>
+                        </div>
+                        <h1 id="perfilNome" style="font-family: var(--font-editorial); font-size: 2rem; font-weight: 700; color: var(--brand-green-dark); margin: 0 0 4px;">
+                            Nome do Usuário
+                        </h1>
+                        <p id="perfilEmail" style="color: var(--text-secondary); font-size: 0.94rem; margin: 0 0 8px;">
+                            usuario@email.com
+                        </p>
+
+                        <!-- AVALIAÇÕES ESTRELAS -->
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #f59e0b; font-size: 16px;">★★★★★</span>
+                            <strong id="perfilMediaEstrelas" style="font-size: 0.95rem; color: var(--brand-green-dark);">5.0</strong>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">
+                                (<span id="perfilTotalAvaliacoes">12</span> avaliações recebidas)
+                            </span>
+                        </div>
+
+                        <!-- AVATARES RÁPIDOS SELETOR -->
+                        <div class="preset-avatars-row">
+                            <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 700;">Avatares rápidos:</span>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('🍽️')" title="Chef / Restaurante">🍽️</button>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('🏢')" title="Instituição Social">🏢</button>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('🚚')" title="Logística / Voluntário">🚚</button>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('🌱')" title="Produtor Sustentável">🌱</button>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('🧑‍🍳')" title="Cozinheiro Solidário">🧑‍🍳</button>
+                            <button type="button" class="btn-preset-avatar" onclick="definirAvatarEmoji('⭐')" title="Doador Ouro">⭐</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AÇÕES SECUNDÁRIAS -->
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="certificado.html" class="btn-cadastro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        📜 Certificado de Impacto
+                    </a>
+                </div>
+            </section>
+
+            <!-- GRID DE ESTATÍSTICAS PESSOAIS -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill">🤝</div>
+                        <span class="kpi-tag">Atividade</span>
+                    </div>
+                    <h2 id="statDoacoes">0</h2>
+                    <p>Doações / Participações</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--brand-green-light); color: var(--brand-green-primary);">⚖️</div>
+                        <span class="kpi-tag" style="background: var(--brand-green-light); color: var(--brand-green-primary);">Resgatado</span>
+                    </div>
+                    <h2 id="statKg">0 kg</h2>
+                    <p>Alimentos Resgatados</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--food-gold-light); color: var(--food-terracotta);">🍲</div>
+                        <span class="kpi-tag" style="background: var(--food-gold-light); color: var(--food-terracotta-dark);">Refeições</span>
+                    </div>
+                    <h2 id="statRefeicoes">0</h2>
+                    <p>Refeições Sociais Geradas</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: #E0F2FE; color: #0284C7;">🌱</div>
+                        <span class="kpi-tag" style="background: #E0F2FE; color: #0284C7;">CO₂ Evitado</span>
+                    </div>
+                    <h2 id="statCo2">0 kg</h2>
+                    <p>CO₂ Evitado Estimado</p>
+                </div>
+            </section>
+
+            <!-- GRID COM EDIÇÃO DE DADOS & SEGURANÇA -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px;">
+                
+                <!-- FORMULÁRIO DE EDIÇÃO DE DADOS (NOME, GMAIL, NÚMERO, ENDEREÇO) -->
+                <section class="form-section-card" style="text-align: left;">
+                    <div class="section-header-editorial">
+                        <span class="badge-header">✏️ DADOS CADASTRAIS</span>
+                        <h2>✏️ Editar Informações Pessoais</h2>
+                        <p class="section-subtitle-editorial">
+                            Mantenha seu nome, Gmail/e-mail e telefone de contato atualizados para notificações da rede.
+                        </p>
+                    </div>
+                    
+                    <form id="formEditarPerfil">
+                        <div class="form-group-editorial" style="margin-bottom: 14px;">
+                            <label for="campoNome">
+                                👤 Nome Completo ou Razão Social <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="campoNome"
+                                class="form-input-editorial"
+                                placeholder="Seu nome ou nome da empresa"
+                                required
+                            >
+                            <span class="form-field-helper">Como você aparece para outras ONGs e parceiros</span>
+                        </div>
+
+                        <div class="form-group-editorial" style="margin-bottom: 14px;">
+                            <label for="campoEmail">
+                                ✉️ E-mail / Gmail Cadastrado <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="campoEmail"
+                                class="form-input-editorial"
+                                placeholder="seu-email@gmail.com"
+                                required
+                            >
+                            <span class="form-field-helper">Você pode alterar seu Gmail ou e-mail de login a qualquer momento</span>
+                        </div>
+
+                        <div class="form-group-editorial" style="margin-bottom: 14px;">
+                            <label for="campoTelefone">
+                                📱 Número de Telefone / WhatsApp <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="campoTelefone"
+                                class="form-input-editorial"
+                                placeholder="(11) 98765-4321"
+                                required
+                            >
+                            <span class="form-field-helper">Utilizado para confirmações rápidas de coletas e avisos urgentes</span>
+                        </div>
+
+                        <div class="form-group-editorial" style="margin-bottom: 14px;">
+                            <label for="campoEndereco">
+                                📍 Endereço Completo <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="campoEndereco"
+                                class="form-input-editorial"
+                                placeholder="Rua, Número, Bairro"
+                                required
+                            >
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 20px;">
+                            <div class="form-group-editorial">
+                                <label for="campoCidade">
+                                    🏙️ Cidade <span class="label-required">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="campoCidade"
+                                    class="form-input-editorial"
+                                    required
+                                >
+                            </div>
+                            <div class="form-group-editorial">
+                                <label for="campoEstado">
+                                    🗺️ UF <span class="label-required">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="campoEstado"
+                                    class="form-input-editorial"
+                                    maxlength="2"
+                                    style="text-transform: uppercase;"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-cadastro btn-editorial-submit btn-full-width">
+                            💾 Salvar Alterações no Cadastro
+                        </button>
+                    </form>
+                </section>
+
+                <!-- SEGURANÇA & AVALIAÇÃO RECÍPROCA -->
+                <section class="form-section-card" style="text-align: left;">
+                    <div class="section-header-editorial">
+                        <span class="badge-header">🔒 SEGURANÇA</span>
+                        <h2>🔒 Senha & Acesso</h2>
+                        <p class="section-subtitle-editorial">
+                            Altere sua senha de acesso periodicamente para maior proteção da sua conta.
+                        </p>
+                    </div>
+                    
+                    <form id="formAlterarSenha">
+                        <div class="form-group-editorial" style="margin-bottom: 14px;">
+                            <label for="campoNovaSenha">
+                                🔑 Nova Senha <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="campoNovaSenha"
+                                class="form-input-editorial"
+                                placeholder="Mínimo de 6 caracteres"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group-editorial" style="margin-bottom: 18px;">
+                            <label for="campoConfirmaNovaSenha">
+                                🔑 Confirmar Nova Senha <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="password"
+                                id="campoConfirmaNovaSenha"
+                                class="form-input-editorial"
+                                placeholder="Repita a nova senha"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn-cadastro btn-editorial-submit btn-full-width" style="background: var(--brand-green-primary);">
+                            🔒 Atualizar Senha de Acesso
+                        </button>
+                    </form>
+
+                    <!-- SISTEMA DE AVALIAÇÃO RÁPIDA -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+                        <h3 style="font-family: var(--font-editorial); font-size: 1.2rem; font-weight: 700; color: var(--brand-green-dark); margin: 0 0 6px;">
+                            ⭐ Sistema de Avaliação Recíproca
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
+                            Avalie a pontualidade, qualidade dos alimentos e a comunicação das últimas doações concluídas para reforçar a confiabilidade da rede.
+                        </p>
+                        <button id="btnAbrirModalAvaliacao" class="btn-cadastro btn-terracotta" style="width: 100%;">
+                            ⭐ Enviar Nova Avaliação
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL DE AVALIAÇÃO -->
+    <div id="modalAvaliacao" class="modal-overlay" style="display:none;">
+        <div class="modal-conteudo">
+            <button id="btnFecharModalAvaliacao" class="modal-fechar">&times;</button>
+            <div style="text-align: center; margin-bottom: 16px;">
+                <span style="font-size: 36px;">⭐</span>
+                <h3 style="font-family: var(--font-editorial); font-size: 1.4rem; color: var(--brand-green-dark); margin: 6px 0 4px;">Avaliar Doação Concluída</h3>
+                <p style="font-size: 0.84rem; color: var(--text-secondary);">Sua avaliação fortalece a credibilidade e transparência da rede SaciadosHub.</p>
+            </div>
+
+            <form id="formEnviarAvaliacao">
+                <div class="form-group-editorial" style="margin-bottom: 14px;">
+                    <label for="notaEstrelas">Selecione a Nota:</label>
+                    <select id="notaEstrelas" class="form-input-editorial" required>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 Estrelas (Excelente)</option>
+                        <option value="4">⭐⭐⭐⭐ 4 Estrelas (Muito Bom)</option>
+                        <option value="3">⭐⭐⭐ 3 Estrelas (Regular)</option>
+                        <option value="2">⭐⭐ 2 Estrelas (Ruim)</option>
+                        <option value="1">⭐ 1 Estrela (Insatisfatório)</option>
+                    </select>
+                </div>
+
+                <div class="form-group-editorial" style="margin-bottom: 16px;">
+                    <label for="comentarioAvaliacao">Comentário (Opcional):</label>
+                    <textarea id="comentarioAvaliacao" class="form-input-editorial" rows="3" placeholder="Descreva sua experiência com pontualidade, qualidade e atendimento..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-cadastro btn-editorial-submit btn-full-width">
+                    Enviar Avaliação
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="notificacoes-tema.js"></script>
+    <script src="perfil.js"></script>
+    <script src="pix-sistema.js"></script>
+    <script src="saci-ai.js"></script>
+
+</body>
+</html>

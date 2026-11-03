@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Restaurante — SaciadosHub</title>
+    <meta name="description" content="Painel de controle do Restaurante: anuncie excedentes de alimentos, visualize demandas de ONGs parceiras e gerencie doações em tempo real.">
+
+    <!-- Tipografia Editorial & Interface Tecnológica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS (Mapa Interativo) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="paineis-formularios.css">
+    <link rel="stylesheet" href="notificacoes-tema.css">
+    <link rel="stylesheet" href="saci-ai.css">
+</head>
+
+<body class="painel-body">
+
+    <!-- =========================================================
+         HEADER PRINCIPAL EDITORIAL
+    ========================================================= -->
+    <header class="painel-header">
+        <a href="index.html" class="painel-brand" title="SaciadosHub — Início">
+            <div class="painel-brand-icon">🍽️</div>
+            <div class="painel-brand-text">
+                <span class="painel-brand-title">Saciados<strong>Hub</strong></span>
+                <span class="painel-brand-badge">Painel do Restaurante</span>
+            </div>
+        </a>
+
+        <nav class="painel-nav-links">
+            <a href="index.html">🏠 Início</a>
+            <a href="mapa.html">🗺️ Mapa da Rede</a>
+            <a href="ranking.html">🏆 Ranking</a>
+            <a href="transparencia.html">📊 Transparência</a>
+            <a href="perfil.html">👤 Perfil</a>
+        </nav>
+
+        <div class="painel-user-bar">
+            <div class="user-session-chip">
+                <span class="user-role-tag user-role-restaurante">🍽️ Doador</span>
+                <span id="headerNomeRestaurante" style="font-weight: 700; color: var(--brand-green-dark);">Restaurante</span>
+            </div>
+            <a href="#" id="sair" class="btn-sair-link" title="Encerrar sessão">
+                <span>✕</span> Sair
+            </a>
+        </div>
+    </header>
+
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL DO PAINEL
+    ========================================================= -->
+    <main class="painel-main-wrapper">
+        <div class="painel-box">
+
+            <!-- HERO BANNER COM BOAS-VINDAS EDITORIAL -->
+            <section class="painel-welcome-card">
+                <div class="welcome-chip-row">
+                    <span class="welcome-role-badge">🍽️ Módulo do Restaurante Doador</span>
+                    <span class="welcome-live-pulse">
+                        <span class="welcome-live-dot"></span>
+                        Rede Operacional Ativa em SP
+                    </span>
+                </div>
+                <h1 id="nomeRestaurante">Bem-vindo, Restaurante! 🍽️</h1>
+                <p>
+                    Cadastre alimentos excedentes próprios para consumo, responda a pedidos urgentes de ONGs parceiras no seu bairro e evite o desperdício com rastreabilidade total.
+                </p>
+            </section>
+
+            <!-- KPI QUICK METRICS -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill">🍱</div>
+                        <span class="kpi-tag">Ativos</span>
+                    </div>
+                    <h2 id="kpiLotesAtivos">6</h2>
+                    <p>Lotes de Alimentos Disponíveis</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--food-gold-light); color: var(--food-terracotta);">⚖️</div>
+                        <span class="kpi-tag" style="background: var(--food-gold-light); color: var(--food-terracotta-dark);">Total Salvo</span>
+                    </div>
+                    <h2 id="kpiKgSalvos">185 kg</h2>
+                    <p>Alimentos Salvos do Desperdício</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: #EFF6FF; color: #1D4ED8;">🏢</div>
+                        <span class="kpi-tag" style="background: #EFF6FF; color: #1D4ED8;">Parcerias</span>
+                    </div>
+                    <h2 id="kpiOngsAtendidas">4</h2>
+                    <p>ONGs Beneficiadas no Raio de 10 km</p>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: #F0FDF4; color: #16A34A;">🌱</div>
+                        <span class="kpi-tag" style="background: #F0FDF4; color: #16A34A;">Sustentável</span>
+                    </div>
+                    <h2 id="kpiCo2Evitado">462 kg</h2>
+                    <p>Emissão de CO₂ Equivalente Evitada</p>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 FORMULÁRIO EDITORIAL: ANUNCIAR ALIMENTO DISPONÍVEL
+            ========================================================= -->
+            <section class="lista form-section-card" id="secaoFormulario">
+                <div class="section-header-editorial">
+                    <span class="badge-header">✨ NOVO ANÚNCIO DE DOAÇÃO</span>
+                    <h2>🍱 Anunciar Alimento Disponível</h2>
+                    <p class="section-subtitle-editorial">
+                        Preencha as informações do alimento que não foi comercializado mas está em perfeitas condições sanitárias. Nossa rede avisa instantaneamente as ONGs com carência correspondente.
+                    </p>
+                </div>
+
+                <form id="formDoacao">
+                    <div class="form-editorial-grid">
+                        <!-- CAMPO 1: TIPO DE ALIMENTO -->
+                        <div class="form-group-editorial">
+                            <label for="alimento">
+                                🍱 Tipo de Alimento / Prato <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="alimento"
+                                placeholder="Ex: Marmitas de arroz, feijão e legumes assados"
+                                required
+                            >
+                            <span class="form-field-helper">Especifique o prato, lote ou ingredientes principais.</span>
+                        </div>
+
+                        <!-- CAMPO 2: QUANTIDADE -->
+                        <div class="form-group-editorial">
+                            <label for="quantidade">
+                                ⚖️ Quantidade (em kg ou porções) <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="number"
+                                id="quantidade"
+                                placeholder="Ex: 25"
+                                min="1"
+                                required
+                            >
+                            <span class="form-field-helper">Informe o peso aproximado em quilogramas ou número de refeições.</span>
+                        </div>
+
+                        <!-- CAMPO 3: VALIDADE / RETIRADA -->
+                        <div class="form-group-editorial">
+                            <label for="validade">
+                                ⏰ Data & Horário Limite de Retirada <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="datetime-local"
+                                id="validade"
+                                required
+                            >
+                            <span class="form-field-helper">Defina o prazo seguro para conservação sanitária do alimento.</span>
+                        </div>
+                    </div>
+
+                    <!-- BOTÃO SUBMIT -->
+                    <div style="margin-top: 24px; display: flex; align-items: center; justify-content: flex-start;">
+                        <button
+                            type="submit"
+                            class="btn-cadastro btn-editorial-submit btn-terracotta"
+                        >
+                            📦 Publicar Doação na Rede SaciadosHub
+                        </button>
+                    </div>
+
+                    <!-- DICA DE MATCH INTELIGENTE -->
+                    <div class="form-smart-tip">
+                        <span>💡</span>
+                        <div>
+                            <strong>Algoritmo de Priorização de Impacto:</strong> Alimentos anunciados com validade curta recebem prioridade máxima de despacho para ONGs a menos de 5 km da sua cozinha, garantindo frescor e agilidade.
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- =========================================================
+                 DEMANDAS URGENTES DAS ONGS (MATCH INTELIGENTE)
+            ========================================================= -->
+            <section class="lista form-section-card" style="text-align: left;">
+                <div class="section-header-editorial">
+                    <span class="badge-header" style="background: var(--status-urgent-bg); color: var(--status-urgent); border-color: rgba(220, 38, 38, 0.25);">
+                        🔴 CARÊNCIAS URGENTES ATIVAS
+                    </span>
+                    <h2>📢 Demandas das ONGs Próximas ao seu Restaurante</h2>
+                    <p class="section-subtitle-editorial">
+                        Instituições credenciadas em São Paulo registraram estas carências prioritárias. Clique em "Atender com Doação" para preencher seu formulário automaticamente com o item e quantidade desejados.
+                    </p>
+                </div>
+
+                <div id="listaDemandasOngsRestaurante" class="demandas-grid-editorial">
+                    <!-- Preenchido dinamicamente via painel-restaurante.js -->
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 MAPA INTELIGENTE DE ONGS NO SEU RAIO
+            ========================================================= -->
+            <section class="mapa-container mapa-card-editorial">
+                <div class="section-header-editorial">
+                    <span class="badge-header">🗺️ LOGÍSTICA & PROXIMIDADE</span>
+                    <h2>🗺️ ONGs & Instituições Próximas</h2>
+                    <p class="section-subtitle-editorial">
+                        Visualize a localização de cozinhas comunitárias, creches e lares que podem receber seus excedentes. Clique no marcador para selecionar a entidade destinatária.
+                    </p>
+                </div>
+
+                <div
+                    id="mapaRestaurante"
+                    class="mapa-painel"
+                ></div>
+            </section>
+
+            <!-- =========================================================
+                 ACOMPANHAMENTO: MINHAS DOAÇÕES
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📋 RASTREABILIDADE</span>
+                    <h2>📋 Minhas Doações Anunciadas</h2>
+                    <p class="section-subtitle-editorial">
+                        Acompanhe o status em tempo real de cada lote publicado: desde a reserva da ONG até o transporte e confirmação de entrega.
+                    </p>
+                </div>
+
+                <div id="listaDoacoesRestaurante">
+                    <!-- Preenchido via painel-restaurante.js -->
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="notificacoes-tema.js"></script>
+    <script src="painel-restaurante.js"></script>
+    <script src="pix-sistema.js"></script>
+    <script src="saci-ai.js"></script>
+
+    <!-- Sincronização de Nome no Header -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const u = JSON.parse(localStorage.getItem("usuarioAtual"));
+                if (u && u.nome) {
+                    const headerNome = document.getElementById("headerNomeRestaurante");
+                    if (headerNome) headerNome.textContent = u.nome;
+                }
+                if (u && u.foto) {
+                    const chip = document.querySelector(".user-session-chip");
+                    if (chip && !document.getElementById("headerFotoUser")) {
+                        const img = document.createElement("img");
+                        img.id = "headerFotoUser";
+                        img.src = u.foto;
+                        img.style.cssText = "width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px;";
+                        chip.insertBefore(img, chip.firstChild);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    </script>
+</body>
+</html>

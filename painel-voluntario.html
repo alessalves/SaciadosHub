@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Voluntário — SaciadosHub</title>
+    <meta name="description" content="Painel do Voluntário: visualize entregas disponíveis para coleta, gerencie transporte de alimentos e acompanhe suas metas sociais.">
+
+    <!-- Tipografia Editorial & Interface Tecnológica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="paineis-formularios.css">
+    <link rel="stylesheet" href="notificacoes-tema.css">
+    <link rel="stylesheet" href="saci-ai.css">
+</head>
+
+<body class="painel-body">
+
+    <!-- =========================================================
+         HEADER PRINCIPAL EDITORIAL
+    ========================================================= -->
+    <header class="painel-header">
+        <a href="index.html" class="painel-brand" title="SaciadosHub — Início">
+            <div class="painel-brand-icon" style="background: #1D4ED8;">🚚</div>
+            <div class="painel-brand-text">
+                <span class="painel-brand-title">Saciados<strong>Hub</strong></span>
+                <span class="painel-brand-badge">Logística & Voluntariado</span>
+            </div>
+        </a>
+
+        <nav class="painel-nav-links">
+            <a href="index.html">🏠 Início</a>
+            <a href="mapa.html">🗺️ Mapa da Rede</a>
+            <a href="ranking.html">🏆 Ranking</a>
+            <a href="transparencia.html">📊 Transparência</a>
+            <a href="perfil.html">👤 Perfil</a>
+        </nav>
+
+        <div class="painel-user-bar">
+            <div class="user-session-chip">
+                <span class="user-role-tag user-role-voluntario">🚚 Voluntário</span>
+                <span id="headerNomeVoluntario" style="font-weight: 700; color: var(--brand-green-dark);">Voluntário</span>
+            </div>
+            <a href="#" id="sair" class="btn-sair-link" title="Encerrar sessão">
+                <span>✕</span> Sair
+            </a>
+        </div>
+    </header>
+
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL DO PAINEL
+    ========================================================= -->
+    <main class="painel-main-wrapper">
+        <div class="painel-box">
+
+            <!-- HERO BANNER COM BOAS-VINDAS EDITORIAL -->
+            <section class="painel-welcome-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 65%, #1d4ed8 100%);">
+                <div class="welcome-chip-row">
+                    <span class="welcome-role-badge" style="color: #93C5FD; border-color: rgba(147, 197, 253, 0.3);">
+                        🚚 Módulo de Logística Solidária
+                    </span>
+                    <span class="welcome-live-pulse" style="color: #60A5FA; border-color: rgba(96, 165, 250, 0.4); background: rgba(30, 58, 138, 0.4);">
+                        <span class="welcome-live-dot" style="background: #60A5FA; box-shadow: 0 0 8px #60A5FA;"></span>
+                        Rotas Ativas em São Paulo
+                    </span>
+                </div>
+                <h1 id="voluntarioGreeting">Bem-vindo Voluntário! 🚚</h1>
+                <p>
+                    Você é a ponte que transforma excedentes de restaurantes em refeições dignas nas ONGs. Escolha uma coleta disponível, faça a rota e finalize a entrega com impacto direto.
+                </p>
+            </section>
+
+            <!-- KPI DASHBOARD CARDS -->
+            <section class="cards kpi-grid">
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: #EFF6FF; color: #1D4ED8;">📦</div>
+                        <span class="kpi-tag" style="background: #EFF6FF; color: #1D4ED8;">Histórico</span>
+                    </div>
+                    <h2 id="totalEntregas">0</h2>
+                    <p>Total de Entregas Realizadas</p>
+                </div>
+
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--status-transit-bg); color: var(--status-transit);">🚚</div>
+                        <span class="kpi-tag" style="background: var(--status-transit-bg); color: var(--status-transit);">Em Andamento</span>
+                    </div>
+                    <h2 id="emTransporte">0</h2>
+                    <p>Entregas em Transporte Ativo</p>
+                </div>
+
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--status-success-bg); color: var(--status-success);">✅</div>
+                        <span class="kpi-tag" style="background: var(--status-success-bg); color: var(--status-success);">Concluídas</span>
+                    </div>
+                    <h2 id="entregues">0</h2>
+                    <p>Entregas Finalizadas com Sucesso</p>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 FORMULÁRIO EDITORIAL: REGISTRO DE DISPONIBILIDADE DO VOLUNTÁRIO
+            ========================================================= -->
+            <section class="lista form-section-card" style="text-align: left;">
+                <div class="section-header-editorial">
+                    <span class="badge-header" style="background: #EFF6FF; color: #1D4ED8; border-color: rgba(29, 78, 216, 0.25);">
+                        🛵 PERFIL OPERACIONAL DO VOLUNTÁRIO
+                    </span>
+                    <h2>🛵 Configurar Disponibilidade & Veículo de Coleta</h2>
+                    <p class="section-subtitle-editorial">
+                        Preencha seus dados de deslocamento para que o sistema direcione coletas prioritárias compatíveis com seu meio de transporte e bairros habituais.
+                    </p>
+                </div>
+
+                <form id="formDisponibilidadeVoluntario">
+                    <div class="form-editorial-grid">
+                        <!-- MEIO DE TRANSPORTE -->
+                        <div class="form-group-editorial">
+                            <label for="volVeiculo">
+                                🚲 Meio de Transporte Principal <span class="label-required">*</span>
+                            </label>
+                            <select id="volVeiculo" required>
+                                <option value="Bicicleta">🚲 Bicicleta / Bike Elétrica</option>
+                                <option value="Moto">🏍️ Motocicleta / Scooter</option>
+                                <option value="Carro">🚗 Carro de Passeio</option>
+                                <option value="Van">🚐 Van / Utilitário / Caminhonete</option>
+                                <option value="Ape">🚶 A pé (Raio curto até 1.5 km)</option>
+                            </select>
+                            <span class="form-field-helper">Ajuda a calcular peso e volume máximo por viagem</span>
+                        </div>
+
+                        <!-- REGIÃO PREFERENCIAL -->
+                        <div class="form-group-editorial">
+                            <label for="volRegiao">
+                                📍 Região / Bairros de Atuação <span class="label-required">*</span>
+                            </label>
+                            <select id="volRegiao" required>
+                                <option value="Centro">Centro Expandido (Sé, República, Bela Vista, Consolação)</option>
+                                <option value="Zona Sul">Zona Sul (Vila Mariana, Pinheiros, Santo Amaro, Campo Limpo)</option>
+                                <option value="Zona Oeste">Zona Oeste (Lapa, Perdizes, Butantã, Jaguaré)</option>
+                                <option value="Zona Leste">Zona Leste (Mooca, Tatuapé, Itaquera, São Miguel)</option>
+                                <option value="Zona Norte">Zona Norte (Santana, Tucuruvi, Casa Verde, Freguesia)</option>
+                                <option value="Grande SP">Região Metropolitana / Grande SP</option>
+                            </select>
+                            <span class="form-field-helper">Suas coletas sugeridas serão focadas nesta região</span>
+                        </div>
+
+                        <!-- DIAS & HORÁRIOS DISPONÍVEIS -->
+                        <div class="form-group-editorial">
+                            <label for="volTurno">
+                                ⏰ Turno Preferencial para Coletas <span class="label-required">*</span>
+                            </label>
+                            <select id="volTurno" required>
+                                <option value="Almoço">Tarde / Pós-Almoço (13h às 16h) — Coleta de Almoço</option>
+                                <option value="Jantar">Noite (18h às 22h) — Coleta de Jantar / Fechamento</option>
+                                <option value="Manha">Manhã (08h às 12h) — Coleta de Padarias e Feiras</option>
+                                <option value="FimDeSemana">Finais de Semana (Sábado e Domingo)</option>
+                                <option value="Flexivel">Qualquer Horário (Notificações em Tempo Real)</option>
+                            </select>
+                            <span class="form-field-helper">Horário de maior disponibilidade para acionamentos</span>
+                        </div>
+
+                        <!-- RAIO MÁXIMO -->
+                        <div class="form-group-editorial">
+                            <label for="volRaio">
+                                📏 Raio Máximo de Deslocamento <span class="label-required">*</span>
+                            </label>
+                            <select id="volRaio" required>
+                                <option value="3">Até 3 km da minha localização</option>
+                                <option value="5" selected>Até 5 km da minha localização</option>
+                                <option value="10">Até 10 km da minha localização</option>
+                                <option value="15">Até 15 km da minha localização</option>
+                                <option value="25">Ilimitado na Grande São Paulo</option>
+                            </select>
+                            <span class="form-field-helper">Distância máxima entre o restaurante e a ONG</span>
+                        </div>
+
+                        <!-- TELEFONE / WHATSAPP -->
+                        <div class="form-group-editorial form-full-row">
+                            <label for="volWhatsApp">
+                                📱 WhatsApp para Chamados de Urgência
+                            </label>
+                            <input
+                                type="tel"
+                                id="volWhatsApp"
+                                placeholder="(11) 98765-4321"
+                            >
+                            <span class="form-field-helper">Usado apenas para confirmação e contato direto pelo restaurante ou ONG</span>
+                        </div>
+
+                        <!-- BOTÃO SALVAR -->
+                        <div class="form-full-row" style="margin-top: 10px;">
+                            <button
+                                type="submit"
+                                class="btn-cadastro btn-editorial-submit"
+                                style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); width: 100%;"
+                            >
+                                💾 Salvar Disponibilidade Operacional
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- FEEDBACK BOX -->
+                    <div id="msgSucessoDisponibilidade" class="form-smart-tip" style="display: none; background: #F0FDF4; border-left-color: #16A34A; color: #166534;">
+                        <span>✅</span>
+                        <div>
+                            <strong>Preferências salvas com sucesso!</strong> Seu perfil foi atualizado e as rotas próximas à sua região terão prioridade no seu painel.
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- =========================================================
+                 GRÁFICO DE IMPACTO DAS ENTREGAS
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📊 IMPACTO PESSOAL</span>
+                    <h2>📊 Desempenho e Metas Sociais</h2>
+                    <p class="section-subtitle-editorial">
+                        Acompanhe o volume de entregas ativas versus concluídas pela sua rota.
+                    </p>
+                </div>
+
+                <div class="grafico-wrapper">
+                    <canvas id="graficoEntregas"></canvas>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 ENTREGAS DISPONÍVEIS PARA COLETAR (ACEITAR)
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📦 ROTAS DISPONÍVEIS</span>
+                    <h2>📦 Entregas Disponíveis para Coleta</h2>
+                    <p class="section-subtitle-editorial">
+                        Estes alimentos foram anunciados por restaurantes e reservados por ONGs. Escolha uma rota para realizar a coleta e transporte.
+                    </p>
+                </div>
+
+                <div class="tabela-container-editorial">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alimento</th>
+                                <th>Quantidade</th>
+                                <th>Restaurante</th>
+                                <th>ONG</th>
+                                <th>Local</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaEntregas">
+                            <!-- Preenchido via voluntario.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 HISTÓRICO DE ENTREGAS REALIZADAS
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">🏆 SUAS ENTREGAS</span>
+                    <h2>🏆 Histórico de Entregas Realizadas</h2>
+                    <p class="section-subtitle-editorial">
+                        Registro dos lotes que você transportou. Clique em "Finalizar Entrega" assim que entregar os alimentos à ONG destinatária.
+                    </p>
+                </div>
+
+                <div class="tabela-container-editorial">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alimento</th>
+                                <th>ONG</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historicoEntregas">
+                            <!-- Preenchido via voluntario.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="notificacoes-tema.js"></script>
+    <script src="voluntario.js"></script>
+    <script src="pix-sistema.js"></script>
+    <script src="saci-ai.js"></script>
+
+    <!-- SCRIPT DO FORMULÁRIO DE DISPONIBILIDADE DO VOLUNTÁRIO -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Sincronizar nome no header e no greeting
+            try {
+                const u = JSON.parse(localStorage.getItem("usuarioAtual"));
+                if (u && u.nome) {
+                    const headerNome = document.getElementById("headerNomeVoluntario");
+                    if (headerNome) headerNome.textContent = u.nome;
+                    const greeting = document.getElementById("voluntarioGreeting");
+                    if (greeting) greeting.textContent = `Olá, ${u.nome}! 🚚`;
+                }
+                if (u && u.foto) {
+                    const chip = document.querySelector(".user-session-chip");
+                    if (chip && !document.getElementById("headerFotoUser")) {
+                        const img = document.createElement("img");
+                        img.id = "headerFotoUser";
+                        img.src = u.foto;
+                        img.style.cssText = "width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px;";
+                        chip.insertBefore(img, chip.firstChild);
+                    }
+                }
+
+                // Carregar preferências salvas do voluntário
+                const prefs = JSON.parse(localStorage.getItem("saciadoshub_vol_prefs") || "{}");
+                if (prefs.veiculo) document.getElementById("volVeiculo").value = prefs.veiculo;
+                if (prefs.regiao) document.getElementById("volRegiao").value = prefs.regiao;
+                if (prefs.turno) document.getElementById("volTurno").value = prefs.turno;
+                if (prefs.raio) document.getElementById("volRaio").value = prefs.raio;
+                if (prefs.whatsapp) document.getElementById("volWhatsApp").value = prefs.whatsapp;
+            } catch (e) {
+                console.error(e);
+            }
+
+            const formDisp = document.getElementById("formDisponibilidadeVoluntario");
+            if (formDisp) {
+                formDisp.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const veiculo = document.getElementById("volVeiculo").value;
+                    const regiao = document.getElementById("volRegiao").value;
+                    const turno = document.getElementById("volTurno").value;
+                    const raio = document.getElementById("volRaio").value;
+                    const whatsapp = document.getElementById("volWhatsApp").value;
+
+                    const prefs = { veiculo, regiao, turno, raio, whatsapp, atualizadoEm: new Date().toISOString() };
+                    localStorage.setItem("saciadoshub_vol_prefs", JSON.stringify(prefs));
+
+                    const msg = document.getElementById("msgSucessoDisponibilidade");
+                    if (msg) {
+                        msg.style.display = "flex";
+                        setTimeout(() => {
+                            msg.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 100);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

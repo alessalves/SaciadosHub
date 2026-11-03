@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da ONG — SaciadosHub</title>
+    <meta name="description" content="Painel de controle da ONG: solicite alimentos prioritários, visualize doações disponíveis de restaurantes parceiros e acompanhe entregas.">
+
+    <!-- Tipografia Editorial & Interface Tecnológica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="paineis-formularios.css">
+    <link rel="stylesheet" href="notificacoes-tema.css">
+    <link rel="stylesheet" href="saci-ai.css">
+</head>
+
+<body class="painel-body">
+
+    <!-- =========================================================
+         HEADER PRINCIPAL EDITORIAL
+    ========================================================= -->
+    <header class="painel-header">
+        <a href="index.html" class="painel-brand" title="SaciadosHub — Início">
+            <div class="painel-brand-icon" style="background: var(--brand-green-primary);">🏢</div>
+            <div class="painel-brand-text">
+                <span class="painel-brand-title">Saciados<strong>Hub</strong></span>
+                <span class="painel-brand-badge">Painel da ONG Beneficiária</span>
+            </div>
+        </a>
+
+        <nav class="painel-nav-links">
+            <a href="index.html">🏠 Início</a>
+            <a href="mapa.html">🗺️ Mapa da Rede</a>
+            <a href="ranking.html">🏆 Ranking</a>
+            <a href="transparencia.html">📊 Transparência</a>
+            <a href="perfil.html">👤 Perfil</a>
+        </nav>
+
+        <div class="painel-user-bar">
+            <div class="user-session-chip">
+                <span class="user-role-tag user-role-ong">🏢 ONG</span>
+                <span id="headerNomeONG" style="font-weight: 700; color: var(--brand-green-dark);">Instituição</span>
+            </div>
+            <a href="#" id="sair" class="btn-sair-link" title="Encerrar sessão">
+                <span>✕</span> Sair
+            </a>
+        </div>
+    </header>
+
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL DO PAINEL
+    ========================================================= -->
+    <main class="painel-main-wrapper">
+        <div class="painel-box">
+
+            <!-- HERO BANNER COM BOAS-VINDAS EDITORIAL -->
+            <section class="painel-welcome-card">
+                <div class="welcome-chip-row">
+                    <span class="welcome-role-badge">🏢 Módulo da Instituição Beneficiária</span>
+                    <span class="welcome-live-pulse">
+                        <span class="welcome-live-dot"></span>
+                        Rede Operacional Ativa em SP
+                    </span>
+                </div>
+                <h1 id="nomeONG">Bem-vinda, ONG! 🏢</h1>
+                <p>
+                    Publique as carências de alimentos da sua instituição para atrair doações direcionadas, reserve lotes disponíveis de restaurantes parceiros e acompanhe o fluxo de recebimento.
+                </p>
+            </section>
+
+            <!-- KPI DASHBOARD CARDS -->
+            <section class="cards kpi-grid">
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill">📦</div>
+                        <span class="kpi-tag">Região SP</span>
+                    </div>
+                    <h2 id="totalDisponiveis">0</h2>
+                    <p>Doações Disponíveis para Solicitar</p>
+                </div>
+
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--brand-green-light); color: var(--brand-green-primary);">✅</div>
+                        <span class="kpi-tag" style="background: var(--brand-green-light); color: var(--brand-green-primary);">Concluídas</span>
+                    </div>
+                    <h2 id="totalRecebidas">0</h2>
+                    <p>Doações Recebidas / Atendidas</p>
+                </div>
+
+                <div class="kpi-card card">
+                    <div class="kpi-card-top">
+                        <div class="kpi-icon-pill" style="background: var(--food-gold-light); color: var(--food-terracotta);">🍱</div>
+                        <span class="kpi-tag" style="background: var(--food-gold-light); color: var(--food-terracotta-dark);">Volume Total</span>
+                    </div>
+                    <h2 id="totalAlimentos">0</h2>
+                    <p>Kilos de Alimentos Distribuídos</p>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 FORMULÁRIO EDITORIAL: CADASTRAR NECESSIDADE DA ONG
+            ========================================================= -->
+            <section class="lista form-section-card" style="text-align: left;">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📢 SOLICITAÇÃO DE ALIMENTOS</span>
+                    <h2>📢 Cadastrar Necessidade de Alimentos da Instituição</h2>
+                    <p class="section-subtitle-editorial">
+                        Informe quais itens e quantidades sua instituição precisa com prioridade. Nossa plataforma exibe sua demanda destacada no Mapa Inteligente para que doadores e restaurantes direcionem seus excedentes.
+                    </p>
+                </div>
+
+                <form id="formNecessidadeONG">
+                    <div class="form-editorial-grid">
+                        <!-- ITEM -->
+                        <div class="form-group-editorial">
+                            <label for="necItem">
+                                🍱 Item / Alimento Necessário <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="necItem"
+                                placeholder="Ex: Arroz tipo 1, Leite integral, Legumes..."
+                                required
+                            >
+                            <span class="form-field-helper">Especifique o alimento ou prato demandado</span>
+                        </div>
+
+                        <!-- CATEGORIA -->
+                        <div class="form-group-editorial">
+                            <label for="necCategoria">
+                                🏷️ Categoria do Alimento <span class="label-required">*</span>
+                            </label>
+                            <select id="necCategoria" required>
+                                <option value="arroz">Arroz</option>
+                                <option value="feijao">Feijão</option>
+                                <option value="macarrao">Macarrão</option>
+                                <option value="leite">Leite</option>
+                                <option value="frutas">Frutas</option>
+                                <option value="legumes">Legumes</option>
+                                <option value="verduras">Verduras</option>
+                                <option value="nao_pereciveis">Produtos Não Perecíveis</option>
+                                <option value="outros">Outros Alimentos</option>
+                            </select>
+                            <span class="form-field-helper">Ajuda a categorizar no filtro do mapa</span>
+                        </div>
+
+                        <!-- QUANTIDADE -->
+                        <div class="form-group-editorial">
+                            <label for="necQuantidade">
+                                ⚖️ Quantidade Necessária <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="number"
+                                id="necQuantidade"
+                                min="1"
+                                placeholder="Ex: 50"
+                                required
+                            >
+                            <span class="form-field-helper">Quantidade ideal para atendimento</span>
+                        </div>
+
+                        <!-- UNIDADE -->
+                        <div class="form-group-editorial">
+                            <label for="necUnidade">
+                                📏 Unidade de Medida <span class="label-required">*</span>
+                            </label>
+                            <select id="necUnidade" required>
+                                <option value="kg">Quilogramas (kg)</option>
+                                <option value="litros">Litros (L)</option>
+                                <option value="unidades">Unidades / Pacotes</option>
+                                <option value="caixas">Caixas</option>
+                            </select>
+                            <span class="form-field-helper">Formato de contagem</span>
+                        </div>
+
+                        <!-- URGÊNCIA -->
+                        <div class="form-group-editorial">
+                            <label for="necUrgencia">
+                                🚨 Nível de Urgência <span class="label-required">*</span>
+                            </label>
+                            <select id="necUrgencia" required>
+                                <option value="alta">🔴 Alta Urgência (Estoque Crítico / Cozinha Parada)</option>
+                                <option value="media">🟠 Média Urgência (Reposição Preventiva)</option>
+                                <option value="baixa">🟢 Baixa Urgência (Planejamento Semanal)</option>
+                            </select>
+                            <span class="form-field-helper">Define destaque visual no mapa</span>
+                        </div>
+
+                        <!-- DATA LIMITE -->
+                        <div class="form-group-editorial">
+                            <label for="necDataLimite">
+                                📅 Data Limite para Recebimento <span class="label-required">*</span>
+                            </label>
+                            <input
+                                type="date"
+                                id="necDataLimite"
+                                required
+                            >
+                            <span class="form-field-helper">Prazo até a refeição planejada</span>
+                        </div>
+
+                        <!-- OBSERVAÇÕES -->
+                        <div class="form-group-editorial form-full-row">
+                            <label for="necObservacoes">
+                                📝 Observações / Famílias Atendidas
+                            </label>
+                            <input
+                                type="text"
+                                id="necObservacoes"
+                                placeholder="Ex: Para a sopa comunitária desta sexta-feira (atendimento de 120 crianças e idosos)..."
+                            >
+                            <span class="form-field-helper">Contexto que incentiva restaurantes e voluntários a mobilizarem doações</span>
+                        </div>
+
+                        <!-- BOTÃO SUBMIT -->
+                        <div class="form-full-row" style="margin-top: 10px;">
+                            <button
+                                type="submit"
+                                class="btn-cadastro btn-editorial-submit btn-full-width"
+                            >
+                                📢 Publicar Necessidade no Mapa e na Rede SaciadosHub
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- DICA OPERACIONAL -->
+                    <div class="form-smart-tip">
+                        <span>💡</span>
+                        <div>
+                            <strong>Visibilidade Automática:</strong> Assim que cadastrada, esta carência aparece no painel de doação dos restaurantes localizados num raio de até 10 km da sede da sua instituição.
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- =========================================================
+                 MINHAS NECESSIDADES ATIVAS
+            ========================================================= -->
+            <section class="lista form-section-card" style="text-align: left;">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📋 DEMANDAS PUBLICADAS</span>
+                    <h2>📋 Minhas Necessidades Ativas</h2>
+                    <p class="section-subtitle-editorial">
+                        Estas solicitações estão ativas na rede. Conforme restaurantes atenderem sua solicitação, você será notificada aqui.
+                    </p>
+                </div>
+
+                <div id="listaNecessidadesONG" class="demandas-grid-editorial">
+                    <!-- Preenchido via ong.js -->
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 GRÁFICO DE IMPACTO DA ONG
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">📊 ANÁLISE DE IMPACTO</span>
+                    <h2>📊 Distribuição e Impacto Alimentar</h2>
+                    <p class="section-subtitle-editorial">
+                        Visão geral das doações recebidas versus volume de refeições garantidas pela sua organização.
+                    </p>
+                </div>
+
+                <div class="grafico-wrapper">
+                    <canvas id="graficoONG"></canvas>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 DOAÇÕES DISPONÍVEIS NA REDE
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">🍱 LOTES ANUNCIADOS</span>
+                    <h2>🍱 Doações Disponíveis para Solicitar</h2>
+                    <p class="section-subtitle-editorial">
+                        Restaurantes e comércios parceiros anunciaram estes lotes. Clique em "Tenho interesse" para reservar o alimento para sua ONG.
+                    </p>
+                </div>
+
+                <div class="tabela-container-editorial">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alimento</th>
+                                <th>Quantidade</th>
+                                <th>Validade</th>
+                                <th>Local</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaDoacoesONG">
+                            <!-- Preenchido via ong.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 HISTÓRICO DE DOAÇÕES RECEBIDAS
+            ========================================================= -->
+            <section class="lista form-section-card">
+                <div class="section-header-editorial">
+                    <span class="badge-header">🏆 HISTÓRICO CONCLUÍDO</span>
+                    <h2>📊 Histórico de Doações Recebidas</h2>
+                    <p class="section-subtitle-editorial">
+                        Registro de todas as doações aceitas e entregues para sua instituição.
+                    </p>
+                </div>
+
+                <div class="tabela-container-editorial">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Alimento</th>
+                                <th>Quantidade</th>
+                                <th>Restaurante</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historicoONG">
+                            <!-- Preenchido via ong.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="notificacoes-tema.js"></script>
+    <script src="ong.js"></script>
+    <script src="pix-sistema.js"></script>
+    <script src="saci-ai.js"></script>
+
+    <!-- Sincronização de Nome no Header -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const u = JSON.parse(localStorage.getItem("usuarioAtual"));
+                if (u && u.nome) {
+                    const headerNome = document.getElementById("headerNomeONG");
+                    if (headerNome) headerNome.textContent = u.nome;
+                }
+                if (u && u.foto) {
+                    const chip = document.querySelector(".user-session-chip");
+                    if (chip && !document.getElementById("headerFotoUser")) {
+                        const img = document.createElement("img");
+                        img.id = "headerFotoUser";
+                        img.src = u.foto;
+                        img.style.cssText = "width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px;";
+                        chip.insertBefore(img, chip.firstChild);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    </script>
+</body>
+</html>
